@@ -21,7 +21,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="1.0"
+        tools:visibility="visible">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/application_name"
@@ -34,11 +35,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/currency_selection_input_container"
-            android:layout_marginBottom="16dp"
             style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-            android:hint="@string/main_currency"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/main_currency">
+
             <AutoCompleteTextView
                 android:id="@+id/currency_selection_input_layout"
                 android:layout_width="match_parent"
@@ -47,6 +49,14 @@
                 tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/load_currency_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/main_load_currency"
+            android:textSize="16sp"
+            tools:visibility="gone" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
