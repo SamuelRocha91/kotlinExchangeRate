@@ -56,7 +56,7 @@
             android:gravity="center"
             android:text="@string/main_load_currency"
             android:textSize="16sp"
-            tools:visibility="gone" />
+            android:visibility="gone"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/select_currency_state"
@@ -66,7 +66,22 @@
             android:gravity="center"
             android:text="@string/main_select_currency"
             android:textSize="16sp"
-            tools:visibility="gone" />
+            android:visibility="gone"/>
+
+        <FrameLayout
+            android:id="@+id/waiting_response_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/waiting_response_progress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:indeterminate="true" />
+
+        </FrameLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
