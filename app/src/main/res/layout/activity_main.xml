@@ -46,7 +46,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:hint="@string/main_select_currency"
               />
         </com.google.android.material.textfield.TextInputLayout>
 
