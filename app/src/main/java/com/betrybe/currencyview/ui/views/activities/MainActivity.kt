@@ -8,8 +8,11 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.betrybe.currencyview.common.ApiIdlingResource
 import com.betrybe.currencyview.data.api.ApiLayer
+import com.betrybe.currencyview.ui.adapters.RateAdapter
 import com.betrye.currencyview.BuildConfig
 import com.betrye.currencyview.R
 import com.google.android.material.textview.MaterialTextView
@@ -26,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     val loadingCurrency: MaterialTextView by lazy { findViewById(R.id.load_currency_state) }
     val selectOptions: AutoCompleteTextView by lazy { findViewById(R.id.currency_selection_input_layout) }
     val selectCurrency: MaterialTextView by lazy { findViewById(R.id.select_currency_state) }
+    val recyclerView: RecyclerView by lazy { findViewById(R.id.currency_rates_state) }
     private val apiService = ApiLayer.instance;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +53,29 @@ class MainActivity : AppCompatActivity() {
                         selectCurrency.visibility = View.VISIBLE;
                         val adapter = ArrayAdapter(baseContext, android.R.layout.simple_dropdown_item_1line, currencies)
                         selectOptions.setAdapter(adapter)
+                        selectOptions.setOnItemClickListener{ parent, view, position, id ->
+                            val selectedCurrency = parent.getItemAtPosition(position) as String
+                           CoroutineScope(Dispatchers.IO).launch {
+                               ApiIdlingResource.increment()
+                               val lates =  apiService.getRates(apiKey, selectedCurrency);
+                               Log.d("rate", "aqui")
+                               Log.d("rate", lates.toString())
+                               val rates = lates.body()
+                               withContext(Dispatchers.Main) {
+                                   rates?.let {
+                                       Log.d("rate", rates.toString())
+                                       selectCurrency.visibility = View.GONE;
+                                       recyclerView.layoutManager =
+                                           LinearLayoutManager(baseContext);
+                                       recyclerView.adapter = RateAdapter(rates)
+                                       recyclerView.visibility = View.VISIBLE;
+
+                                   }
+                               }
+                               ApiIdlingResource.decrement()
+
+                           }
+                        }
                     } ?: kotlin.run {
                         Toast.makeText(baseContext, "Deu ruim", Toast.LENGTH_LONG).show()
                     }
