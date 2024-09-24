@@ -1,6 +1,5 @@
 package com.betrybe.currencyview.data.api
 
-import androidx.constraintlayout.motion.widget.Key
 import com.betrybe.currencyview.data.models.CurrencyRateResponse
 import com.betrybe.currencyview.data.models.CurrencySymbolResponse
 import retrofit2.Response
@@ -10,7 +9,9 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET("symbols")
-    suspend fun getSymbols(@Header("apikey") apiKey: String ): Response<CurrencySymbolResponse>
+    suspend fun getSymbols(
+        @Header("apikey") apiKey: String
+    ): Response<CurrencySymbolResponse>
 
     @GET("latest")
     suspend fun getRates(

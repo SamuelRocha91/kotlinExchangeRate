@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.betrybe.currencyview.common.ApiIdlingResource
 import com.betrybe.currencyview.data.api.ApiLayer
 import com.betrybe.currencyview.ui.adapters.RateAdapter
 import com.betrye.currencyview.BuildConfig
@@ -42,33 +41,25 @@ class MainActivity : AppCompatActivity() {
         loadingCurrency.visibility = View.VISIBLE;
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                ApiIdlingResource.increment()
                 val currenciesSymbols =
                     apiService.getSymbols(apiKey).body()?.symbols?.keys?.toList();
                 withContext(Dispatchers.Main) {
                     if (currenciesSymbols != null) {
                         renderCurrenciesOptions(currenciesSymbols)
                     } else {
-                        Toast.makeText(
-                            baseContext,
-                            "Erro no carregamento das moedas. Favor, tente mais tarde.",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        showToast(
+                            "Error loading coins. Please try later.",
+                           )
                     }
                 }
-                ApiIdlingResource.decrement()
             } catch (e: HttpException) {
-                Log.e("ApiError", "Erro na resposta da API", e)
-                ApiIdlingResource.decrement()
-                Toast.makeText(
-                    baseContext,
-                    "Erro na comunicação com o servidor. Tente novamente.",
-                    Toast.LENGTH_LONG
-                ).show()
+                Log.e("ApiError", "Error in API response", e)
+                showToast(
+                    "Error communicating with the server. Please try again.",
+                    )
             } catch (e: IOException) {
-                Log.e("NetworkError", "Erro de conectividade", e)
-                Toast.makeText(baseContext, "Erro de conectividade", Toast.LENGTH_LONG).show()
-                ApiIdlingResource.decrement()
+                Log.e("NetworkError", "Connectivity error", e)
+                showToast("Connectivity error")
             }
         }
     }
@@ -93,7 +84,6 @@ class MainActivity : AppCompatActivity() {
     ) {
         val selectedCurrency = parent.getItemAtPosition(position) as String
         CoroutineScope(Dispatchers.IO).launch {
-            ApiIdlingResource.increment();
             try {
                 val rates = apiService.getRates(apiKey, selectedCurrency).body();
                 withContext(Dispatchers.Main) {
@@ -104,24 +94,22 @@ class MainActivity : AppCompatActivity() {
                         recyclerView.adapter = RateAdapter(rates)
                         recyclerView.visibility = View.VISIBLE;
                     } else {
-                        Toast.makeText(baseContext, "Por favor, tente novamente", Toast.LENGTH_LONG)
-                            .show()
+                        showToast("Please try again")
+                        fetchCurrencies();
                     }
-                    ApiIdlingResource.decrement()
                 }
             } catch (e: HttpException) {
-                Log.e("ApiError", "Erro na resposta da API", e)
-                ApiIdlingResource.decrement()
-                Toast.makeText(
-                    baseContext,
-                    "Erro na comunicação com o servidor. Tente novamente.",
-                    Toast.LENGTH_LONG
-                ).show()
+                Log.e("ApiError", "Error in API response", e)
+                showToast("Error communicating with the server. Please try again")
+
             } catch (e: IOException) {
-                Log.e("NetworkError", "Erro de conectividade", e)
-                Toast.makeText(baseContext, "Erro de conectividade", Toast.LENGTH_LONG).show()
-                ApiIdlingResource.decrement()
+                Log.e("NetworkError", "Connectivity error", e)
+                showToast("Connectivity error")
             }
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(baseContext, message, Toast.LENGTH_LONG).show()
     }
 }

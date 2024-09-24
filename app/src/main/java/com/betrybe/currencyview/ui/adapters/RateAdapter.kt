@@ -31,13 +31,6 @@ class RateAdapter(val rates: CurrencyRateResponse): Adapter<RateAdapter.RateView
     override fun onBindViewHolder(holder: RateViewHolder, position: Int) {
         val keysRates = rates.rates.keys.toList();
         val valuesRates = rates.rates.values.toList()
-        Log.d("onBindViewHolder", "Position: $position")
-        Log.d("onBindViewHolder", "Keys: $keysRates")
-        Log.d("onBindViewHolder", "Values: $valuesRates")
-
-        // Verifique se o valor da posição está correto
-        Log.d("onBindViewHolder", "Current Key: ${keysRates[position]}")
-        Log.d("onBindViewHolder", "Current Value: ${valuesRates[position]}")
 
         holder.title.text = keysRates[position];
         holder.value.text = DecimalFormat("0.00").format(valuesRates[position]);
