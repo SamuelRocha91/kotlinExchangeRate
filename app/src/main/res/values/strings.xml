@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Currency View</string>
-    <string name="main_currency">Moeda</string>
-    <string name="main_load_currency">Carregando moedas...</string>
-    <string name="main_select_currency">Selecione uma moeda.</string>
-    <string name="main_currency_converter">Conversor de Moedas</string>
-    <string name="main_connection_error">Erro de conexão</string>
+    <string name="main_currency">Coin</string>
+    <string name="main_load_currency">Carrying Coins…</string>
+    <string name="main_select_currency">Select a currency</string>
+    <string name="main_currency_converter">Currency Converter</string>
+    <string name="main_connection_error">Connection error</string>
+    <string name="title_temporary">Example</string>
+    <string name="rate_temporary">Temporary</string>
 </resources>
