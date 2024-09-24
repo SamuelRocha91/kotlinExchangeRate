@@ -66,6 +66,3 @@ La aplicación está estructurada de la siguiente manera:
 - 👤 [Social Login](https://github.com/SamuelRocha91/kotlinLoginSocial/blob/main/README_es.md)
 - 📜 [Virtual Menu](https://github.com/SamuelRocha91/kotlinVirtualMenu/blob/main/README_es.md)
 
---- 
-
-Si necesitas más ajustes, ¡hazmelo saber!
